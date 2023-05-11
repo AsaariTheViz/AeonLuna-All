@@ -142,7 +142,7 @@ def get_readable_message():
         msg += f"<i>{escape(f'{download.name()}')}</i>\n\n"
         msg += f"<b>┌ {download.status()} with {download.engine}</b>"
         if download.status() not in [MirrorStatus.STATUS_SPLITTING, MirrorStatus.STATUS_SEEDING]:
-            msg += f"\n<b>├ <a href='https://github.com/5hojib/Luna'>{get_progress_bar_string(download.progress())}</a></b> {download.progress()}"
+            msg += f"\n<b>├ {get_progress_bar_string(download.progress())}</b> {download.progress()}"
             msg += f"\n<b>├ </b>{download.processed_bytes()} of {download.size()}"
             msg += f"\n<b>├ Speed</b>: {download.speed()}"
             msg += f'\n<b>├ Estimated</b>: {download.eta()}'
@@ -231,6 +231,9 @@ def get_readable_time(seconds):
     return result.strip()
 
 
+def is_telegram_link(url):
+    return url.startswith(('https://t.me/', 'tg://openmessage?user_id='))
+
 def is_magnet(url):
     return bool(re_match(MAGNET_REGEX, url))
 
@@ -312,7 +315,7 @@ def checking_access(user_id, button=None):
         user_data[user_id].update(data)
         if button is None:
             button = ButtonMaker()
-        button.ubutton('Refresh Token', short_url(f'https://t.me/{bot_name}?start={token}'))
+        button.ubutton('Refresh Token', short_url(f'https://telegram.me/{bot_name}?start={token}'))
         return 'Token is expired, refresh your token and try again.', button
     return None, button
 

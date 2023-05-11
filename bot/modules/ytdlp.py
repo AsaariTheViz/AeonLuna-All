@@ -32,7 +32,7 @@ from bot.helper.telegram_helper.message_utils import (anno_checker,
                                                       open_category_btns,
                                                       request_limiter,
                                                       sendLogMessage,
-                                                      sendMessage)
+                                                      sendMessage, auto_delete_message)
 
 
 @new_task
@@ -367,7 +367,8 @@ async def _ytdl(client, message, isZip=False, isLeech=False, sameDir={}):
                 tag = reply_to.from_user.mention
 
     if not is_url(link):
-        await sendMessage(message, YT_HELP_MESSAGE.format_map({'cmd': message.command[0], 'fmg': '{"ffmpeg": ["-threads", "4"]}'}))
+        reply_message = await sendMessage(message, YT_HELP_MESSAGE.format_map({'cmd': message.command[0], 'fmg': '{"ffmpeg": ["-threads", "4"]}'}))
+        await auto_delete_message(message, reply_message)
         await delete_links(message)
         return
     if not message.from_user:
@@ -451,7 +452,7 @@ async def _ytdl(client, message, isZip=False, isLeech=False, sameDir={}):
         for ytopt in yt_opt:
             key, value = map(str.strip, ytopt.split(':', 1))
             if value.startswith('^'):
-                if '.' in value:
+                if '.' in value or value == 'inf':
                     value = float(value.split('^')[1])
                 else:
                     value = int(value.split('^')[1])
