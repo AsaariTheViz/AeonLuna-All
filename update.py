@@ -56,7 +56,7 @@ if len(UPSTREAM_REPO) == 0:
 
 UPSTREAM_BRANCH = environ.get('UPSTREAM_BRANCH', '')
 if len(UPSTREAM_BRANCH) == 0:
-    UPSTREAM_BRANCH = 'jmdkh-deploy'
+    UPSTREAM_BRANCH = 'heroku'
 
 if ospath.exists('.git'):
     srun(["rm", "-rf", ".git"])
