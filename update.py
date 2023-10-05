@@ -1,4 +1,4 @@
-jmdkh-deployfrom logging import FileHandler, StreamHandler, INFO, basicConfig, error as log_error, info as log_info
+from logging import FileHandler, StreamHandler, INFO, basicConfig, error as log_error, info as log_info
 from os import path as ospath, environ, execl as osexecl
 from subprocess import run as srun
 from requests import get as rget
@@ -56,7 +56,7 @@ if len(UPSTREAM_REPO) == 0:
 
 UPSTREAM_BRANCH = environ.get('UPSTREAM_BRANCH', '')
 if len(UPSTREAM_BRANCH) == 0:
-    UPSTREAM_BRANCH = 'heroku'
+    UPSTREAM_BRANCH = 'jmdkh-deploy'
 
 if ospath.exists('.git'):
     srun(["rm", "-rf", ".git"])
